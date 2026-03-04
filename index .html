@@ -1,1 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Site Under Construction</title>
+  <style>
+    :root {
+      --primary: #4a90e2;
+      --accent: #f0c808;
+      --dark: #1e2530;
+      --light: #f8f9fc;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #2c3e50, #4a6984);
+      color: white;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 9vw, 5rem);
+      margin-bottom: 1rem;
+      color: var(--accent);
+      text-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+
+    .subtitle {
+      font-size: clamp(1.3rem, 4.5vw, 1.6rem);
+      max-width: 720px;
+      margin: 0 auto 2.5rem;
+      color: rgba(255,255,255,0.92);
+      line-height: 1.5;
+    }
+
+    .construction {
+      position: relative;
+      width: 180px;
+      height: 180px;
+      margin: 2rem 0;
+    }
+
+    .crane {
+      width: 140px;
+      height: 140px;
+      background: #ffcc00;
+      border-radius: 50% 50% 10% 10%;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      animation: bounce 3.5s infinite ease-in-out;
+    }
+
+    .crane::before {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 18px;
+      background: #444;
+      top: -28px;
+      left: -20px;
+      border-radius: 10px;
+      transform: rotate(-25deg);
+      transform-origin: left center;
+      animation: swingCrane 5s infinite alternate ease-in-out;
+    }
+
+    .ground {
+      width: 340px;
+      height: 40px;
+      background: linear-gradient(#5c4033, #8b5a2b);
+      border-radius: 20px;
+      margin-top: 1.5rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      position: relative;
+    }
+
+    .ground::before {
+      content: "Under construction — coming soon";
+      position: absolute;
+      top: -45px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.4rem;
+      color: var(--accent);
+      font-weight: bold;
+      white-space: nowrap;
+      animation: blink 2.5s infinite;
+    }
+
+    .launch {
+      margin-top: 3rem;
+      font-size: clamp(1.7rem, 5vw, 2.3rem);
+      color: var(--accent);
+      text-shadow: 0 0 12px rgba(240,200,8,0.6);
+    }
+
+    .target-date {
+      font-size: 1.5rem;
+      margin-top: 0.5rem;
+      color: #fff;
+      opacity: 0.9;
+    }
+
+    #countdown {
+      font-size: clamp(3.5rem, 12vw, 6.5rem);
+      font-weight: bold;
+      color: white;
+      margin: 1.2rem 0 2.5rem;
+      text-shadow: 0 0 25px rgba(255,255,255,0.8), 0 0 50px var(--primary);
+      letter-spacing: 2px;
+      line-height: 1.1;
+      min-height: 120px;
+    }
+
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-25px); }
+    }
+
+    @keyframes swingCrane {
+      from { transform: rotate(-25deg); }
+      to { transform: rotate(-8deg); }
+    }
+
+    @keyframes blink {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+
+    @media (max-width: 500px) {
+      #countdown {
+        font-size: clamp(2.8rem, 10vw, 4.2rem);
+      }
+      .construction { width: 140px; height: 140px; }
+      .crane { width: 110px; height: 110px; }
+      .crane::before { width: 140px; top: -24px; left: -15px; }
+      .ground { width: 280px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>🚧 Site Under Construction 🚧</h1>
+  
+  <p class="subtitle">
+    This page is currently being built.<br>
+    Launching soon — stay tuned!
+  </p>
+
+  <div class="construction">
+    <div class="crane"></div>
+  </div>
+
+  <div class="ground"></div>
+
+  <div class="launch">Planned Launch:</div>
+  <div class="target-date">March 12, 2026</div>
+  <div id="countdown">Calculating...</div>
+
+  <script>
+    const targetDate = new Date("March 12, 2026 00:00:00").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      if (distance <= 0) {
+        document.getElementById("countdown").innerHTML = "🎉 Now Live!";
+        return;
+      }
+
+      const days    = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours   = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("countdown").innerHTML =
+        `${days}d ${hours.toString().padStart(2,'0')}h ${minutes.toString().padStart(2,'0')}m ${seconds.toString().padStart(2,'0')}s`;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
 
